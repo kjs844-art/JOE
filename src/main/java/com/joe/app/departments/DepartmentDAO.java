@@ -3,68 +3,123 @@ package com.joe.app.departments;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
+import java.util.ArrayList;
 
 import com.joe.app.util.DBConnection;
 
 public class DepartmentDAO {
-	
-	public void detail(int departmentId) throws Exception {
+
+	public int create(DepartmentDTO departmentDTO) throws Exception {
 		DBConnection connection = new DBConnection();
 		Connection con = connection.getConnection();
-		
-		String sql = "SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID =?";
-		
+
+		String sql = """
+				INSERT INTO DEPARTMENTS (DEPARTMENT_ID, DEPARTMENT_NAME, MANAGER_ID, LOCATION_ID)
+				VALUES (DEPARTMENTS_SEQ.NEXTVAL, ?, ?, ?)
+				""";
+
 		PreparedStatement st = con.prepareStatement(sql);
-		
-		//? 세팅
-		st.setInt(1, departmentId);
-		
-		ResultSet rs = st.executeQuery();
-		
-		if(rs.next()) {
-			String name = rs.getString("DEPARTMENT_NAME");
-			System.out.println(name);
-		}else {
-			System.out.println("부서가 없다");
+		st.setString(1, departmentDTO.getDepartmentName());
+
+		if (departmentDTO.getManagerId() == null) {
+			st.setNull(2, Types.INTEGER);
+		} else {
+			st.setInt(2, departmentDTO.getManagerId());
 		}
-		
+
+		if (departmentDTO.getLocationId() == null) {
+			st.setNull(3, Types.INTEGER);
+		} else {
+			st.setInt(3, departmentDTO.getLocationId());
+		}
+
+		int result = st.executeUpdate();
+
+		st.close();
+		con.close();
+
+		return result;
+	}
+
+	public DepartmentDTO detail(int departmentId) throws Exception {
+		DBConnection connection = new DBConnection();
+		Connection con = connection.getConnection();
+
+		String sql = "SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID = ?";
+
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setInt(1, departmentId);
+
+		ResultSet rs = st.executeQuery();
+		DepartmentDTO dto = null;
+
+		if (rs.next()) {
+			dto = new DepartmentDTO();
+			dto.setDepartmentId(rs.getInt("DEPARTMENT_ID"));
+			dto.setDepartmentName(rs.getString("DEPARTMENT_NAME"));
+
+			int managerId = rs.getInt("MANAGER_ID");
+			if (rs.wasNull()) {
+				dto.setManagerId(null);
+			} else {
+				dto.setManagerId(managerId);
+			}
+
+			int locationId = rs.getInt("LOCATION_ID");
+			if (rs.wasNull()) {
+				dto.setLocationId(null);
+			} else {
+				dto.setLocationId(locationId);
+			}
+		}
+
 		rs.close();
 		st.close();
 		con.close();
-		
+
+		return dto;
 	}
-	
-	public void list() throws Exception {
-		//1. DB연결
+
+	public ArrayList<DepartmentDTO> list() throws Exception {
 		DBConnection connection = new DBConnection();
 		Connection con = connection.getConnection();
-		
-		//2. 쿼리문작성
-		String sql =""" 
+
+		String sql = """
 				SELECT * FROM DEPARTMENTS
 				ORDER BY DEPARTMENT_ID DESC
 				""";
-				
-		
-		//3. 쿼리문미리 전송
+
 		PreparedStatement st = con.prepareStatement(sql);
-		
-		//4. ?값을 세팅
-		
-		//5. 최종전송 및 결과처리
 		ResultSet rs = st.executeQuery();
-		
-		while(rs.next()) {
-			String name = rs.getString("DEPARTMENT_NAME");
-			int id= rs.getInt("DEPARTMENT_ID");
-			System.out.println(name +" : "+id);
+		ArrayList<DepartmentDTO> ar = new ArrayList<>();
+
+		while (rs.next()) {
+			DepartmentDTO dto = new DepartmentDTO();
+			dto.setDepartmentId(rs.getInt("DEPARTMENT_ID"));
+			dto.setDepartmentName(rs.getString("DEPARTMENT_NAME"));
+
+			int managerId = rs.getInt("MANAGER_ID");
+			if (rs.wasNull()) {
+				dto.setManagerId(null);
+			} else {
+				dto.setManagerId(managerId);
+			}
+
+			int locationId = rs.getInt("LOCATION_ID");
+			if (rs.wasNull()) {
+				dto.setLocationId(null);
+			} else {
+				dto.setLocationId(locationId);
+			}
+
+			ar.add(dto);
 		}
-		
-		//6. 연결 해제
+
 		rs.close();
 		st.close();
 		con.close();
-		
-	}
 
+		return ar;
+	}
 }
