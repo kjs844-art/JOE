@@ -14,6 +14,8 @@
 		<li><a href="${pageContext.request.contextPath}/dept/create">dept create</a></li>
 		<li><a href="${pageContext.request.contextPath}/dept/detail">dept detail</a></li>
 		<li><a href="${pageContext.request.contextPath}/dept/list">dept list</a></li>
+		<li><a href="${pageContext.request.contextPath}/community/create">community create</a></li>
+		<li><a href="${pageContext.request.contextPath}/community/list">community list</a></li>
 	</ul>
 </body>
 </html>
