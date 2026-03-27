@@ -8,7 +8,26 @@ import java.util.ArrayList;
 
 import com.joe.app.util.DBConnection;
 
+
+
 public class DepartmentDAO {
+	private DBConnection connection;
+	
+	public DepartmentDAO() {
+		this.connection = new DBConnection();
+	}
+	
+	public void delete(DepartmentDTO departmentDTO) throws Exception {
+		Connection con = new co
+		
+		String sql="DELETE DEPARTMENTS WHERE DEPARTMENT_ID=?";
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setInt(1, 0);
+		
+	}
+	
+	
 
 	public int create(DepartmentDTO departmentDTO) throws Exception {
 		DBConnection connection = new DBConnection();
