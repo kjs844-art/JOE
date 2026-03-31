@@ -43,7 +43,11 @@ public class EmployeeDAO {
 		
 		
 		
-		HttpSession session= request 
+		HttpSession session = request.getSession();
+		session.setAttribute("dto", employeeDTO);
+		response.sendRedirect("/home");
+		
+
 	}
 
 	/* [CODEX-OLD] 기존 내 버전 보존
