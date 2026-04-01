@@ -14,8 +14,5 @@
 		<button type="submit">Login</button>
 	</form>
 	<p>${loginResult}</p>
-	
-	
-	<a href=""
 </body>
 </html>
