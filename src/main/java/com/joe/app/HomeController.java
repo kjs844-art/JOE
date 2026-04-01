@@ -21,7 +21,7 @@ public class HomeController extends HttpServlet {
 			throws ServletException, IOException {
 
 		// 홈 화면 JSP를 찾음
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/home.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/index.jsp");
 
 		// home.jsp 로 이동
 		view.forward(request, response);

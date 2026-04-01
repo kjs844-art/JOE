@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Community List</title>
+<title>Country List</title>
 <c:import url="/WEB-INF/views/temp/head.jsp"></c:import>
 </head>
 <body class="d-flex flex-column h-100">
@@ -15,16 +15,15 @@
 			<div class="container px-5">
 				<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
 					<div>
-						<div class="info-badge mb-2"><i class="bi bi-card-list"></i> Community</div>
-						<h1 class="fw-bolder mb-1">커뮤니티 목록</h1>
-						<p class="text-muted mb-0">등록된 글을 확인하고 상세 페이지로 이동할 수 있습니다.</p>
+						<div class="info-badge mb-2"><i class="bi bi-globe2"></i> Country</div>
+						<h1 class="fw-bolder mb-1">국가 목록</h1>
+						<p class="text-muted mb-0">샘플 데이터로 국가 ID와 국가명을 확인합니다.</p>
 					</div>
-					<a href="${pageContext.request.contextPath}/community/create" class="btn btn-primary">글 등록</a>
+					<div class="d-flex gap-2">
+						<a href="${pageContext.request.contextPath}/country/create" class="btn btn-primary">국가 등록</a>
+						<a href="${pageContext.request.contextPath}/country/detail" class="btn btn-outline-dark">상세 샘플</a>
+					</div>
 				</div>
-
-				<c:if test="${not empty message}">
-					<div class="alert alert-danger">${message}</div>
-				</c:if>
 
 				<div class="card form-panel">
 					<div class="card-body p-4">
@@ -32,21 +31,15 @@
 							<table class="table table-hover align-middle mb-0">
 								<thead>
 									<tr>
-										<th>글번호</th>
-										<th>제목</th>
-										<th>작성자</th>
-										<th>작성시간</th>
-										<th>중요도</th>
+										<th>Country ID</th>
+										<th>Country Name</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${list}" var="dto">
+									<c:forEach var="country" items="${countries}">
 										<tr>
-											<td>${dto.no}</td>
-											<td><a class="fw-semibold text-decoration-none" href="${pageContext.request.contextPath}/community/detail?no=${dto.no}">${dto.title}</a></td>
-											<td>${dto.name}</td>
-											<td>${dto.regDate}</td>
-											<td><span class="badge text-bg-primary">${dto.star}</span></td>
+											<td>${country.countryId}</td>
+											<td>${country.countryName}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

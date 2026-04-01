@@ -36,7 +36,7 @@ public class EmployeeLogoutController extends HttpServlet {
 
 		// [CODEX-ADD] 선생님 최신 코드 기준
 		session.invalidate();
-		response.sendRedirect("/home");
+		response.sendRedirect(request.getContextPath() + "/");
 	}
 
 	/**

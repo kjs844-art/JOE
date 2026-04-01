@@ -65,7 +65,7 @@ public class EmployeeLoginController extends HttpServlet {
 			// view.forward(request, response);
 
 			// [CODEX-ADD] 선생님 최신 코드 기준 /home 으로 redirect
-			response.sendRedirect("/home");
+			response.sendRedirect(request.getContextPath() + "/emp/mypage");
 
 		} catch (Exception e) {
 			// [CODEX-OLD] 이전 버전 예외 시 login.jsp로 forward
