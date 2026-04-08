@@ -1,27 +1,39 @@
-package com.joe.app;
+package com.joe.app.departments;
 
 import java.io.IOException;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet({"/", "/home"})
-public class HomeController extends HttpServlet {
+@WebServlet("/dept/delete")
+public class DepartmentDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public HomeController() {
+	public DepartmentDeleteController() {
 		super();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/index.jsp");
-		view.forward(request, response);
+		String id = request.getParameter("departmentId");
+		DepartmentDTO departmentDTO = new DepartmentDTO();
+		departmentDTO.setDepartmentId(Integer.parseInt(id));
+
+		DepartmentDAO departmentDAO = new DepartmentDAO();
+		try {
+			int result = departmentDAO.delete(departmentDTO);
+			if (result > 0) {
+				response.sendRedirect("./list");
+			} else {
+				response.sendRedirect("detail?departmentId=" + id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

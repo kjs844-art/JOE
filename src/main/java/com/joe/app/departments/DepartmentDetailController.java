@@ -1,4 +1,4 @@
-package com.joe.app;
+package com.joe.app.departments;
 
 import java.io.IOException;
 
@@ -9,18 +9,29 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet({"/", "/home"})
-public class HomeController extends HttpServlet {
+@WebServlet("/dept/detail")
+public class DepartmentDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public HomeController() {
+	public DepartmentDetailController() {
 		super();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/index.jsp");
+		DepartmentDAO departmentDAO = new DepartmentDAO();
+		String id = request.getParameter("departmentId");
+		int departmentId = Integer.parseInt(id);
+
+		try {
+			DepartmentDTO departmentDTO = departmentDAO.detail(departmentId);
+			request.setAttribute("dto", departmentDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/dept/detail.jsp");
 		view.forward(request, response);
 	}
 

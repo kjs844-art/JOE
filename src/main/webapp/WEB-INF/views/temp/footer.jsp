@@ -16,6 +16,11 @@
 	</div>
 </footer>
 
+<%-- Local Vendor Script: jquery.min.js를 프로젝트 내부 vendor 폴더에서 불러옵니다. --%>
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	src="${pageContext.request.contextPath}/resource/vendor/jquery/jquery.min.js"></script>
+<%-- Local Vendor Script: bootstrap.bundle.min.js를 프로젝트 내부 vendor 폴더에서 불러옵니다. --%>
+<script
+	src="${pageContext.request.contextPath}/resource/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<%-- Project Script: 화면별 추가 동작은 scripts.js에서 이어서 작성합니다. --%>
 <script src="${pageContext.request.contextPath}/resource/js/scripts.js"></script>
